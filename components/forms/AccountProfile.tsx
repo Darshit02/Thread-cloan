@@ -100,7 +100,7 @@ function AccountProfile({ user, btnTitle }: props) {
           control={form.control}
           name="profile_photo"
           render={({ field }) => (
-            <FormItem className="flex flex-col w-full gap-3 ">
+            <FormItem className="flex w-full gap-3 ">
               <FormLabel className="account-form_image-label">
                 {field.value ? (
                   <Image
