@@ -1,17 +1,25 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 let isConnected = false;
 
 export const connectToDB = async () => {
-   mongoose.set('strictQuery' , true)
+   mongoose.set('strict', true);
 
-   if(!process.env.MONGODB_URL) return console.log('MONGODV_URL not found');
-   if(isConnected) return console.log("Alredy connected to DB");
-   try {
-    await mongoose.connect(process.env.MONGODB_URL)
-    isConnected = true 
-    console.log("connected to mongodb");
-   } catch (error) {
-    console.log(error);
+   if (!process.env.MONGODB_URL) {
+      console.log('MONGODB_URL not found');
+      return;
    }
-}
+
+   if (isConnected) {
+      console.log("Already connected to DB");
+      return;
+   }
+
+   try {
+      await mongoose.connect(process.env.MONGODB_URL);
+      isConnected = true;
+      console.log("Connected to MongoDB");
+   } catch (error) {
+      console.error(error);
+   }
+};

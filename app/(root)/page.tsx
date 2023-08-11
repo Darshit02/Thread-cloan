@@ -20,7 +20,7 @@ export default async function Home() {
               <ThreadCard
                 key={post._id}
                 id={post._id}
-                currentUserId={user.id || ""}
+                currentUserId={user?.id || ""}
                 parentId={post.parentId}
                 content={post.text}
                 author={post.author}
@@ -34,4 +34,5 @@ export default async function Home() {
       </section>
     </>
   );
+
 }

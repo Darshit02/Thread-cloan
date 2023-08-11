@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
+import Thread from "../models/thread.model";
 
 interface Params {
   userId: string;
@@ -24,7 +25,7 @@ export async function updateUser({
     connectToDB();
     await User.findOneAndUpdate(
       {
-        id: userId
+        id: userId,
       },
       {
         username: username.toLowerCase(),
@@ -38,21 +39,46 @@ export async function updateUser({
     if (path === "/profile/edit") {
       revalidatePath(path);
     }
-  } catch (error:any) {
+  } catch (error: any) {
     throw new Error(`Failed to create/update user : ${error.message}`);
   }
 }
-export async function fetchUser(userId : string) {
-  try{
+export async function fetchUser(userId: string) {
+  try {
     connectToDB();
-    return await User
-    .findOne({id : userId})
+    return await User.findOne({ id: userId });
     // .populate({
     //   path : 'communities',
     //   model; Community
     // })
+  } catch (error: any) {
+    throw new Error(`Failed to fetch User : ${error.message}`);
   }
-  catch(error:any){
-    throw new Error(`Failed to fetch User : ${error.message}`)
+}
+
+export async function fetchUserPosts(userId: string) {
+  try {
+    connectToDB();
+
+    // find all threads ahtord by user with the given id
+
+    // TODO : populate community
+
+    const threads = await User.findOne({ id: userId }).populate({
+      path: "threads",
+      model: Thread,
+      populate: {
+        path: "children",
+        model: Thread,
+        populate: {
+          path: "author",
+          model: User,
+          select: "name image id",
+        },
+      },
+    });
+    return threads;
+  } catch (error: any) {
+    throw new Error(`Failed to get user posts : ${error.message}`);
   }
 }
