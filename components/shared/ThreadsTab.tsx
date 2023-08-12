@@ -17,7 +17,7 @@ const ThreadsTab = async ({ currentUserId, accountId, accountType }: Props) => {
 
   return (
     <section className="mt-flex flex-col gap">
-      {result.threds.map((thread: any) => (
+      {result.threads.map((thread: any) => (
         <ThreadCard
           key={thread._id}
           id={thread._id}

@@ -14,7 +14,10 @@ async function Page({ params }: { params: { id: string } }) {
   console.log(user);
 
   // fetch organization list created by user
-  const userInfo = await fetchUser(user.id);
+  const userInfo = await fetchUser(params.id);
+
+  // ! const userInfo = await fetchUser(user.id);
+  
   if (!userInfo?.onboarded) redirect("/onboarding");
   return (
     <>
@@ -24,7 +27,9 @@ async function Page({ params }: { params: { id: string } }) {
         authUserId={user.id}
         name={userInfo.name}
         username={userInfo.username}
-        imgUrl={userInfo.imgUrl}
+
+        // ! Bug Fixed
+        imgUrl={userInfo.image}
         bio={userInfo.bio}
         />
 
@@ -44,7 +49,7 @@ async function Page({ params }: { params: { id: string } }) {
 
                 {tab.label == 'Threads' && (
                     <p className="ml-1 rounded-full bg-light-4 px-2 py-1 !text-tiny-medium text-light-2 ">
-                        {userInfo?.threads?.length}
+                        { userInfo?.threads?.length }
                     </p>
                 )}
 
@@ -52,7 +57,7 @@ async function Page({ params }: { params: { id: string } }) {
             ))}
           </TabsList>
           {profileTabs.map((tab) =>(
-            <TabsContent key={`content-${tab.label}`} vlaue={tab.value} className="w-full text-light-1">
+            <TabsContent key={`content-${tab.label}`} value = {tab.value} className="w-full text-light-1">
                 <ThreadsTab
                 currentUserId={user.id}
                 accountId={userInfo.id}
