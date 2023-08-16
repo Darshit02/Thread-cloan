@@ -33,7 +33,7 @@ async function Page({ params }: { params: { id: string } }) {
         bio={userInfo.bio}
         />
 
-        <div className="mt-9 ">
+        <div className="mt-9">
         <Tabs defaultValue='threads' className='w-full'>
           <TabsList className='tab'>
             {profileTabs.map((tab) => (
@@ -63,7 +63,6 @@ async function Page({ params }: { params: { id: string } }) {
                 accountId={userInfo.id}
                 accountType="User" 
                  />
-
             </TabsContent>
           ))}
             </Tabs>
